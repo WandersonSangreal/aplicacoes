@@ -10,11 +10,9 @@ import {Application} from "../interfaces/Application";
 })
 export class ApiService {
 
-  private selectedApplication: Application | null;
+  private selectedApplication: Application;
 
   public constructor(private http: HttpClient) {
-
-    this.selectedApplication = null;
 
   }
 
@@ -30,7 +28,7 @@ export class ApiService {
 
   }
 
-  public getApplication(): Application | null {
+  public getApplication(): Application {
 
     return this.selectedApplication;
 

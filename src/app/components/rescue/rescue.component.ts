@@ -15,7 +15,7 @@ export class RescueComponent implements OnInit {
 
   public form: FormGroup;
   public rescueValue: number = 0;
-  public application: Application | null = null;
+  public application: Application;
 
   public constructor(private apiService: ApiService, private route: Router, private formBuilder: FormBuilder, private dialog: MatDialog) {
 
@@ -69,7 +69,7 @@ export class RescueComponent implements OnInit {
         width: '25vw',
         data: {
           title: 'ERRO!',
-          message: 'O valor digitado está acima do disponível. Tente um valor mais baixo!'
+          message: 'O valor digitado está acima do disponível. Tente um valor menor!'
         }
       });
 
@@ -88,17 +88,31 @@ export class RescueComponent implements OnInit {
 
   public submitValue() {
 
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: '25vw',
-      data: {
-        title: 'RESGATE EFETUADO COM SUCESSO!',
-        message: 'O valor solicitado estará em sua conta em até 5 dias úteis.'
-      }
-    });
+    if (this.rescueValue <= this.application.saldoTotalDisponivel) {
 
-    dialogRef.afterClosed().subscribe(result => {
-      this.route.navigate(['/']);
-    });
+      const dialogRef = this.dialog.open(DialogComponent, {
+        width: '25vw',
+        data: {
+          title: 'RESGATE EFETUADO COM SUCESSO!',
+          message: 'O valor solicitado estará em sua conta em até 5 dias úteis.'
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        this.route.navigate(['/']);
+      });
+
+    } else {
+
+      this.dialog.open(DialogComponent, {
+        width: '25vw',
+        data: {
+          title: 'ERRO!',
+          message: 'O valor total solicitado acima do disponível. Tente novamente!'
+        }
+      });
+
+    }
 
   }
 
