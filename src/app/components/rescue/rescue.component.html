@@ -56,9 +56,9 @@
               <fieldset [formGroupName]="i" class="row">
 
                 <input type="text" formControlName="rescue" class="form-control"
-                       [class.is-invalid]="getRescue(i).invalid && getRescue(i).touched" mask="separator.2"
-                       thousandSeparator="." [validation]="true"
-                       (change)="sumValue(application.saldoTotalDisponivel, acao.percentual)">
+                       [class.is-invalid]="getRescue(i).get('rescue').invalid && getRescue(i).get('rescue').touched"
+                       mask="separator.2" thousandSeparator="." [validation]="true"
+                       (change)="sumValue(application.saldoTotalDisponivel, acao.percentual, getRescue(i).get('rescue').value)">
 
               </fieldset>
 

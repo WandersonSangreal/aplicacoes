@@ -56,13 +56,25 @@ export class RescueComponent implements OnInit {
     if (this.form) {
       const item = <FormArray>this.form.get('rescues');
       if (item) {
-        return item.at(0);
+        return item.at(index);
       }
     }
     return null;
   }
 
-  public sumValue(total: number, percentage: number) {
+  public sumValue(total: number, percentage: number, value: number) {
+    if (Number(value) > (total * (percentage / 100))) {
+
+      this.dialog.open(DialogComponent, {
+        width: '25vw',
+        data: {
+          title: 'ERRO!',
+          message: 'O valor digitado está acima do disponível. Tente um valor mais baixo!'
+        }
+      });
+
+      return;
+    }
 
     const rescues = this.form.get('rescues') as FormArray;
 
@@ -76,7 +88,14 @@ export class RescueComponent implements OnInit {
 
   public submitValue() {
 
-    const dialogRef = this.dialog.open(DialogComponent, {width: '25vw'});
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '25vw',
+      data: {
+        title: 'RESGATE EFETUADO COM SUCESSO!',
+        message: 'O valor solicitado estará em sua conta em até 5 dias úteis.',
+        button: true
+      }
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       this.route.navigate(['/']);

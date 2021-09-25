@@ -1,12 +1,12 @@
 <h2 mat-dialog-title class="text-center">
-  RESGATE EFETUADO COM SUCESSO!
+  {{ data.title }}
 </h2>
 <div mat-dialog-content>
   <p class="text-center">
-    O valor solicitado estará em sua conta em até 5 dias úteis.
+    {{ data.message }}
   </p>
 </div>
 <div class="text-end">
-  <button class="btn btn-primary mx-4">Novo Resgate</button>
+  <button class="btn btn-primary mx-4" *ngIf="data.button">Novo Resgate</button>
   <button type="button" class="btn btn-light" (click)="dismiss()">Fechar</button>
 </div>
