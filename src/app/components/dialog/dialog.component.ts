@@ -21,7 +21,7 @@ export class DialogComponent implements OnInit {
   }
 
   public dismiss(): void {
-    this.dialogRef.close();
+    // this.dialogRef.close();
   }
 
 }
