@@ -88,6 +88,20 @@ export class RescueComponent implements OnInit {
 
   public submitValue() {
 
+    if (this.rescueValue <= 0) {
+
+      this.dialog.open(DialogComponent, {
+        width: '25vw',
+        data: {
+          title: environment.dialogs.titles.error,
+          message: environment.dialogs.messages.rescueTotalValueLess
+        }
+      });
+
+      return;
+
+    }
+
     if (this.rescueValue <= this.application.saldoTotalDisponivel) {
 
       const dialogRef = this.dialog.open(DialogComponent, {
@@ -100,20 +114,6 @@ export class RescueComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(() => {
         this.route.navigate(['/']).then().catch(reason => console.error(reason));
-      });
-
-      return;
-
-    }
-
-    if (this.rescueValue <= 0) {
-
-      this.dialog.open(DialogComponent, {
-        width: '25vw',
-        data: {
-          title: environment.dialogs.titles.error,
-          message: environment.dialogs.messages.rescueTotalValueLess
-        }
       });
 
       return;
