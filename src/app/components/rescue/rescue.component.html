@@ -1,0 +1,61 @@
+<div class="row" *ngIf="application">
+
+  <div class="col-12">
+    <h4 class="my-4">DADOS DO INVESTIMENTO</h4>
+  </div>
+
+  <div class="col-12">
+
+    <ul class="list-group list-group-horizontal">
+      <li class="list-group-item col">
+        Nome
+        <h5>{{ application.nome }}</h5>
+      </li>
+      <li class="list-group-item col">
+        Saldo Total Disponível
+        <h5>{{ application.saldoTotalDisponivel | currency : 'R$' }}</h5>
+      </li>
+      <li class="list-group-item col">
+        Valor Total a Resgatar
+        <h5>{{ rescueValue | currency : 'R$' }}</h5>
+      </li>
+    </ul>
+
+    <br>
+    <br>
+
+  </div>
+
+  <div class="col">
+    <h4 class="my-4">RESGATE DO SEU JEITO</h4>
+  </div>
+
+  <div class="col-12">
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th class="text-center">#</th>
+        <th>Ação</th>
+        <th class="text-center">Saldo Acumulado</th>
+        <th class="text-center">Valor a Resgatar</th>
+        <th class="text-center">Ações</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let acao of application.acoes; let i = index">
+        <th class="align-middle text-center">{{ i + 1 }}</th>
+        <td class="align-middle">{{ acao.nome }}</td>
+        <td class="align-middle text-center">{{ acao.percentual }}</td>
+        <td class="align-middle text-end"></td>
+        <td class="align-middle text-center">
+          <button type="button" class="btn btn-sm">
+            Resgatar
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>

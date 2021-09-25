@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col">
+    <table class="table">
+      <thead>
+      <tr>
+        <th class="text-center">#</th>
+        <th>Nome</th>
+        <th class="text-center">Objetivo</th>
+        <th class="text-center">Valor</th>
+        <th class="text-center">Ações</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let application of applications; let i = index">
+        <th class="align-middle text-center">{{ i + 1 }}</th>
+        <td class="align-middle">{{ application.nome }}</td>
+        <td class="align-middle text-center">{{ application.objetivo }}</td>
+        <td class="align-middle text-end">{{ application.saldoTotalDisponivel | currency: 'R$' }}</td>
+        <td class="align-middle text-center">
+          <button type="button" class="btn btn-sm" [class.btn-outline-primary]="application.indicadorCarencia === 'N'"
+                  [class.btn-outline-secondary]="application.indicadorCarencia === 'S'"
+                  [disabled]="application.indicadorCarencia === 'S'" (click)="setApplication(application)">
+            Resgatar
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
