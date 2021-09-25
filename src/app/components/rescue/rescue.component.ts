@@ -92,8 +92,7 @@ export class RescueComponent implements OnInit {
       width: '25vw',
       data: {
         title: 'RESGATE EFETUADO COM SUCESSO!',
-        message: 'O valor solicitado estará em sua conta em até 5 dias úteis.',
-        button: true
+        message: 'O valor solicitado estará em sua conta em até 5 dias úteis.'
       }
     });
 
