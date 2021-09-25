@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 
-import {Application} from "../../interfaces/Application";
+import {Application} from "../../interfaces/application";
 
 import {ApiService} from "../../services/api.service";
 import {Router} from "@angular/router";

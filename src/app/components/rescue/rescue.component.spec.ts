@@ -1,6 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RescueComponent } from './rescue.component';
+import {RescueComponent} from './rescue.component';
+import {HttpClientModule} from "@angular/common/http";
 
 describe('RescueComponent', () => {
   let component: RescueComponent;
@@ -8,9 +9,10 @@ describe('RescueComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RescueComponent ]
+      imports: [HttpClientModule],
+      declarations: [RescueComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

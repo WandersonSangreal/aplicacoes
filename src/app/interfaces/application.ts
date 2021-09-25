@@ -1,4 +1,4 @@
-import {Stock} from "./Stock";
+import {Stock} from "./stock";
 
 export interface Application {
   nome: string;

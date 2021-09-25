@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ApiService} from "../../services/api.service";
-import {Application} from "../../interfaces/Application";
+import {Application} from "../../interfaces/application";
 import {Router} from "@angular/router";
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogComponent} from "../dialog/dialog.component";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-rescue',
@@ -34,7 +35,7 @@ export class RescueComponent implements OnInit {
 
     } else {
 
-      this.route.navigate(['/']);
+      this.route.navigate(['/']).then().catch(reason => console.error(reason));
 
     }
 
@@ -68,8 +69,8 @@ export class RescueComponent implements OnInit {
       this.dialog.open(DialogComponent, {
         width: '25vw',
         data: {
-          title: 'ERRO!',
-          message: 'O valor digitado está acima do disponível. Tente um valor menor!'
+          title: environment.dialogs.titles.error,
+          message: environment.dialogs.messages.rescueValueBigger
         }
       });
 
@@ -79,8 +80,7 @@ export class RescueComponent implements OnInit {
     const rescues = this.form.get('rescues') as FormArray;
 
     this.rescueValue = Array.from(rescues.controls.entries()).map(item => {
-      const [index, form] = item;
-      console.log(form.get('rescue')?.value);
+      const [, form] = item;
       return Number(form.get('rescue')?.value);
     }).reduce((a, b) => a + b, 0);
 
@@ -93,26 +93,41 @@ export class RescueComponent implements OnInit {
       const dialogRef = this.dialog.open(DialogComponent, {
         width: '25vw',
         data: {
-          title: 'RESGATE EFETUADO COM SUCESSO!',
-          message: 'O valor solicitado estará em sua conta em até 5 dias úteis.'
+          title: environment.dialogs.titles.rescueSuccess,
+          message: environment.dialogs.messages.rescueSuccess
         }
       });
 
-      dialogRef.afterClosed().subscribe(result => {
-        this.route.navigate(['/']);
+      dialogRef.afterClosed().subscribe(() => {
+        this.route.navigate(['/']).then().catch(reason => console.error(reason));
       });
 
-    } else {
+      return;
+
+    }
+
+    if (this.rescueValue <= 0) {
 
       this.dialog.open(DialogComponent, {
         width: '25vw',
         data: {
-          title: 'ERRO!',
-          message: 'O valor total solicitado acima do disponível. Tente novamente!'
+          title: environment.dialogs.titles.error,
+          message: environment.dialogs.messages.rescueTotalValueLess
         }
       });
 
+      return;
+
     }
+
+    this.dialog.open(DialogComponent, {
+      width: '25vw',
+      data: {
+        title: environment.dialogs.titles.error,
+        message: environment.dialogs.messages.rescueTotalValueBigger
+      }
+    });
+
 
   }
 
