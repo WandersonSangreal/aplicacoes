@@ -10,8 +10,10 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {HttpClientModule} from "@angular/common/http";
 import {CurrencyPipe, registerLocaleData} from "@angular/common";
 import ptBR from "@angular/common/locales/pt";
-import { RescueComponent } from './components/rescue/rescue.component';
+import {RescueComponent} from './components/rescue/rescue.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {NgxMaskModule, IConfig} from 'ngx-mask';
+import { DialogComponent } from './components/dialog/dialog.component'
 
 registerLocaleData(ptBR);
 
@@ -19,7 +21,8 @@ registerLocaleData(ptBR);
   declarations: [
     AppComponent,
     ListComponent,
-    RescueComponent
+    RescueComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +32,8 @@ registerLocaleData(ptBR);
     ReactiveFormsModule,
     FormsModule,
     MatDialogModule,
-    MatToolbarModule
+    MatToolbarModule,
+    NgxMaskModule.forRoot(),
   ],
   providers: [
     CurrencyPipe,

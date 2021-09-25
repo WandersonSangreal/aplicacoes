@@ -26,36 +26,57 @@
 
   </div>
 
-  <div class="col">
+  <div class="col-12">
     <h4 class="my-4">RESGATE DO SEU JEITO</h4>
   </div>
 
-  <div class="col-12">
+  <ng-container *ngIf="form">
 
-    <table class="table">
-      <thead>
-      <tr>
-        <th class="text-center">#</th>
-        <th>Ação</th>
-        <th class="text-center">Saldo Acumulado</th>
-        <th class="text-center">Valor a Resgatar</th>
-        <th class="text-center">Ações</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let acao of application.acoes; let i = index">
-        <th class="align-middle text-center">{{ i + 1 }}</th>
-        <td class="align-middle">{{ acao.nome }}</td>
-        <td class="align-middle text-center">{{ acao.percentual }}</td>
-        <td class="align-middle text-end"></td>
-        <td class="align-middle text-center">
-          <button type="button" class="btn btn-sm">
-            Resgatar
-          </button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <form [formGroup]="form">
+
+      <div class="col-12">
+
+        <table class="table">
+          <thead>
+          <tr>
+            <th class="text-center">#</th>
+            <th>Ação</th>
+            <th class="text-center">Saldo Acumulado</th>
+            <th class="text-center">Valor a Resgatar</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr formArrayName="rescues" *ngFor="let acao of application.acoes; let i = index">
+            <th class="align-middle text-center">{{ i + 1 }}</th>
+            <td class="align-middle">{{ acao.nome }}</td>
+            <td
+              class="align-middle text-end">{{ (application.saldoTotalDisponivel * (acao.percentual / 100)) | currency : 'R$' }}</td>
+            <td class="align-middle text-end">
+
+              <fieldset [formGroupName]="i" class="row">
+
+                <input type="text" formControlName="rescue" class="form-control"
+                       [class.is-invalid]="getRescue(i).invalid && getRescue(i).touched" mask="separator.2"
+                       thousandSeparator="." [validation]="true"
+                       (change)="sumValue(application.saldoTotalDisponivel, acao.percentual)">
+
+              </fieldset>
+
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+    </form>
+
+  </ng-container>
+
+  <div class="col-12 text-end">
+
+    <button type="button" class="btn btn-primary" (click)="submitValue()">Confirmar Resgate</button>
 
   </div>
+
 </div>
