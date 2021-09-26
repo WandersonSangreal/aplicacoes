@@ -14,6 +14,7 @@ import {RescueComponent} from './components/rescue/rescue.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgxMaskModule, IConfig} from 'ngx-mask';
 import { DialogComponent } from './components/dialog/dialog.component'
+import {ApiService} from "./services/api.service";
 
 registerLocaleData(ptBR);
 
@@ -37,6 +38,7 @@ registerLocaleData(ptBR);
   ],
   providers: [
     CurrencyPipe,
+    ApiService,
     {provide: LOCALE_ID, useValue: 'pt-BR'}
   ],
   bootstrap: [AppComponent]
