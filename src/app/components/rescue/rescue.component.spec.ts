@@ -1,4 +1,4 @@
-import {ComponentFixture, TestBed, tick} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import ptBR from "@angular/common/locales/pt";
 import {RescueComponent} from './rescue.component';
@@ -173,6 +173,47 @@ describe('TestesResgate', () => {
 
     expect(dialogHeader.innerText).toContain(dialogTitle);
     expect(dialogBody.innerText).toContain(dialogMessage);
+
+    component.resetForm();
+
+    await dialogs[0].close();
+
+  });
+
+  it('Clicar em confirmar com todos os campos com valor validos', async () => {
+
+    const dialogTitle = 'SUCESSO';
+    const dialogMessage = 'estará em sua conta em até 5 dias';
+
+    await fixture.whenStable();
+
+    const inputs = fixture.nativeElement.querySelectorAll('input');
+
+    for (let input of inputs) {
+
+      input.value = 1000;
+      input.dispatchEvent(new Event('input'));
+      input.dispatchEvent(new Event('change'));
+
+    }
+
+    fixture.detectChanges();
+
+    const button = fixture.nativeElement.querySelector('.btn');
+
+    button.click();
+
+    fixture.detectChanges();
+
+    const dialogs = await loader.getAllHarnesses(MatDialogHarness);
+
+    const dialogHeader = document.querySelector('.dialog-title') as HTMLHeadElement;
+    const dialogBody = document.querySelector('.dialog-message') as HTMLElement;
+
+    expect(dialogHeader.innerText).toContain(dialogTitle);
+    expect(dialogBody.innerText).toContain(dialogMessage);
+
+    component.resetForm();
 
     await dialogs[0].close();
 

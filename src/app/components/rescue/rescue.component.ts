@@ -86,6 +86,10 @@ export class RescueComponent implements OnInit {
 
   }
 
+  public resetForm() {
+    this.form.reset();
+  }
+
   public submitValue() {
 
     if (this.rescueValue <= 0) {
