@@ -141,5 +141,40 @@ describe('TestesResgate', () => {
     expect(dialogHeader.innerText).toContain(dialogTitle);
     expect(dialogBody.innerText).toContain(dialogMessage);
 
+    await dialogs[0].close();
+
+  });
+
+  it('Clicar em confirmar com um dos campos a resgatar com valor invalido', async () => {
+
+    const dialogTitle = 'ERRO!';
+    const dialogMessage = 'acima do disponível';
+
+    await fixture.whenStable();
+
+    const inputValue = fixture.nativeElement.querySelector('input:first-child');
+
+    inputValue.value = 100000;
+    inputValue.dispatchEvent(new Event('input'));
+    inputValue.dispatchEvent(new Event('change'));
+
+    fixture.detectChanges();
+
+    const button = fixture.nativeElement.querySelector('.btn');
+
+    button.click();
+
+    fixture.detectChanges();
+
+    const dialogs = await loader.getAllHarnesses(MatDialogHarness);
+
+    const dialogHeader = document.querySelector('.dialog-title') as HTMLHeadElement;
+    const dialogBody = document.querySelector('.dialog-message') as HTMLElement;
+
+    expect(dialogHeader.innerText).toContain(dialogTitle);
+    expect(dialogBody.innerText).toContain(dialogMessage);
+
+    await dialogs[0].close();
+
   });
 });
