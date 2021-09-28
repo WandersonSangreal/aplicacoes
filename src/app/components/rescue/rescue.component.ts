@@ -48,7 +48,7 @@ export class RescueComponent implements OnInit {
   public createRescue(max: number): FormGroup {
 
     return this.formBuilder.group({
-      rescue: ['0', [Validators.min(0), Validators.max(max)]]
+      rescue: ['0', [Validators.min(0), Validators.max(parseFloat(max.toFixed(2)))]]
     });
 
   }
@@ -64,7 +64,10 @@ export class RescueComponent implements OnInit {
   }
 
   public sumValue(total: number, percentage: number, value: number) {
-    if (Number(value) > (total * (percentage / 100))) {
+
+    const fixed = parseFloat((total * (percentage / 100)).toFixed(2));
+
+    if (Number(value) > fixed) {
 
       this.dialog.open(DialogComponent, {
         width: '25vw',
@@ -90,48 +93,41 @@ export class RescueComponent implements OnInit {
     this.form.reset();
   }
 
+  public selection(e: any) {
+    e.target.setSelectionRange(0, e.target.value.length);
+  }
+
+  public rules() {
+
+    const responses = {
+      rescueTotalValueLess: (this.rescueValue <= 0),
+      rescueValueBigger: (!this.form.valid && this.rescueValue > 0 && this.rescueValue <= this.application.saldoTotalDisponivel),
+      rescueTotalValueBigger: (!this.form.valid && this.rescueValue > this.application.saldoTotalDisponivel),
+      rescueSuccess: (this.form.valid && this.rescueValue > 0 && this.rescueValue <= this.application.saldoTotalDisponivel)
+    };
+
+    // @ts-ignore
+    const [result] = Object.keys(responses).filter(key => responses[key]);
+
+    return {
+      title: result === 'rescueSuccess' ? environment.dialogs.titles.rescueSuccess : environment.dialogs.titles.error,
+      // @ts-ignore
+      message: environment.dialogs.messages[result]
+    }
+
+  }
+
   public submitValue() {
 
-    if (this.rescueValue <= 0) {
-
-      this.dialog.open(DialogComponent, {
-        width: '25vw',
-        data: {
-          title: environment.dialogs.titles.error,
-          message: environment.dialogs.messages.rescueTotalValueLess
-        }
-      });
-
-      return;
-
-    }
-
-    if (this.rescueValue <= this.application.saldoTotalDisponivel) {
-
-      const dialogRef = this.dialog.open(DialogComponent, {
-        width: '25vw',
-        data: {
-          title: environment.dialogs.titles.rescueSuccess,
-          message: environment.dialogs.messages.rescueSuccess
-        }
-      });
-
-      dialogRef.afterClosed().subscribe(() => {
-        this.route.navigate(['/']).then().catch(reason => console.error(reason));
-      });
-
-      return;
-
-    }
+    const {title, message} = this.rules();
 
     this.dialog.open(DialogComponent, {
       width: '25vw',
       data: {
-        title: environment.dialogs.titles.error,
-        message: environment.dialogs.messages.rescueTotalValueBigger
+        title: title,
+        message: message
       }
     });
-
 
   }
 

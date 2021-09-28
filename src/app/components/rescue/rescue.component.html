@@ -57,7 +57,7 @@
 
                 <input type="text" formControlName="rescue" class="form-control"
                        [class.is-invalid]="getRescue(i).get('rescue').invalid && getRescue(i).get('rescue').touched"
-                       mask="separator.2" thousandSeparator="." [validation]="true"
+                       mask="separator.2" thousandSeparator="." [validation]="true" (focus)="selection($event)"
                        (change)="sumValue(application.saldoTotalDisponivel, acao.percentual, getRescue(i).get('rescue').value)">
 
               </fieldset>
